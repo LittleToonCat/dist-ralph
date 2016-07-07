@@ -1,0 +1,25 @@
+import RootObject/UD
+import LoginManager/UD
+import World/AI
+import Ralph/AI
+
+dclass RootObject : DistributedObject {
+};
+
+dclass LoginManager : DistributedObject {
+  login() clsend airecv;
+  loginResp(uint8 success);
+};
+
+dclass World : DistributedObject {
+  setParentingRules(); // For some reason, Panda needs this field here
+  // so it can place child objects. Hrmm...
+  setName(string name) required ram broadcast;
+  setPopulation(uint32 population) required ram broadcast;
+  requestJoin(string name) clsend airecv;
+};
+
+dclass Ralph : DistributedSmoothNode {
+  setName(string name) required ram broadcast;
+  setChat(string chat) broadcast ownsend;
+};
