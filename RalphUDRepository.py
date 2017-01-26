@@ -14,16 +14,21 @@ from panda3d.core import *
 loadPrcFileData('', 'window-type none\naudio-library-name null')
 from direct.showbase.ShowBase import ShowBase
 from direct.distributed.AstronInternalRepository import AstronInternalRepository
+from RalphGlobals import *
 from RootObjectUD import RootObjectUD
 from LoginManagerUD import LoginManagerUD
 
 class RalphUDRepostiory(AstronInternalRepository):
+    """ This 'UberDOG' server will host all 'static' objects 
+     with pre-defined ID's.  Such objects should handle complicated tasks
+     like account verifiation, real money transactions, and what not. """
+
     def __init__(self, args):
         dcFileNames = ['direct.dc', 'ralph.dc']
 
         self.baseChannel = args.base_channel
 
-        self.GameGlobalsId = 1000
+        self.GameGlobalsId = GAME_GLOBALS_ID
 
         self.serverId = args.stateserver
 
@@ -46,11 +51,18 @@ class RalphUDRepostiory(AstronInternalRepository):
         """ Successfully connected to the Message Director.
             Now to generate the LoginManager """
         print 'Connected Successfully!'
+
+        # Generate our 'dummy' object...
         rootObj = RootObjectUD(self)
         rootObj.generateWithRequiredAndId(self.GameGlobalsId, 0, 0)
+
+        # Claim this object's ownership...
         self.setAI(self.GameGlobalsId, self.baseChannel)
+        
+        # And then generate the LoginManager itself. 
+        # (It's ownership is defined automaticly internally)
         loginManager = LoginManagerUD(self)
-        loginManager.generateWithRequiredAndId(1001, self.GameGlobalsId, 0)
+        loginManager.generateWithRequiredAndId(LOGIN_MANAGER_DO_ID, self.GameGlobalsId, 0)
 
 base = ShowBase()
 base.air = RalphUDRepostiory(args)

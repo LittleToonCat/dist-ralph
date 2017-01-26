@@ -16,7 +16,9 @@ args = parser.parse_args()
 from panda3d.core import *
 loadPrcFileData('', 'window-type none\naudio-library-name null')
 from direct.showbase.ShowBase import ShowBase
+from RalphGlobals import *
 from direct.distributed.AstronInternalRepository import AstronInternalRepository
+from direct.distributed.TimeManagerAI import TimeManagerAI
 from WorldAI import WorldAI
 
 class RalphAIRepository(AstronInternalRepository):
@@ -25,7 +27,7 @@ class RalphAIRepository(AstronInternalRepository):
 
         self.baseChannel = args.base_channel
 
-        self.GameGlobalsId = 1000
+        self.GameGlobalsId = GAME_GLOBALS_ID
 
         self.serverId = args.stateserver
 
@@ -37,6 +39,9 @@ class RalphAIRepository(AstronInternalRepository):
         self.districtId = self.allocateChannel()
 
         self.worldName = args.name
+
+        # List of generated Ralph objects.
+        self.avatars = []
 
         # Allow some time for other processes.
         base.setSleep(0.01)
@@ -53,10 +58,17 @@ class RalphAIRepository(AstronInternalRepository):
         """ Successfully connected to the Message Director.
             Now to generate our World! """
         print 'Connected Successfully!'
+
         self.world = WorldAI(self)
         self.world.setName(self.worldName)
-        self.world.generateWithRequiredAndId(self.districtId, self.GameGlobalsId, 1)
+        self.world.generateWithRequiredAndId(self.districtId, self.GameGlobalsId, ZONE_ID_WORLDS)
         self.setAI(self.districtId, self.baseChannel)
+
+        self.timeManager = TimeManagerAI(self)
+        self.timeManager.generateWithRequired(ZONE_ID_MANAGERS)
+
+    def getAvatarIdFromSender(self):
+        return self.getMsgSender() & 0xFFFFFFFFL
 
 base = ShowBase()
 base.air = RalphAIRepository(args)

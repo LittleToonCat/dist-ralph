@@ -2,6 +2,10 @@ import RootObject/UD
 import LoginManager/UD
 import World/AI
 import Ralph/AI
+// FIXME: For some reason, when using "import Ralph/AI/OV"
+// the client couldn't find the object's owner view. But the line
+// below does...
+from RalphOV import Ralph/OV
 
 dclass RootObject : DistributedObject {
 };
@@ -12,11 +16,12 @@ dclass LoginManager : DistributedObject {
 };
 
 dclass World : DistributedObject {
-  setParentingRules(); // For some reason, Panda needs this field here
-  // so it can place child objects. Hrmm...
+  setParentingRules();  // For some reason, the client needs this field here
+                        // so it can send a interest request to this object. Hrmm...
   setName(string name) required ram broadcast;
   setPopulation(uint32 population) required ram broadcast;
   requestJoin(string name) clsend airecv;
+  nameOccupied();
 };
 
 dclass Ralph : DistributedSmoothNode {
