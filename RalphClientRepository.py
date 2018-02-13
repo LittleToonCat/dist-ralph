@@ -3,6 +3,7 @@ from direct.showbase.ShowBase import ShowBase
 from RalphGlobals import *
 from direct.fsm.FSM import FSM
 from direct.gui.DirectGui import *
+from direct.task import Task
 from panda3d.core import *
 from direct.distributed.PyDatagram import PyDatagram
 from direct.distributed.MsgTypes import *
@@ -49,8 +50,9 @@ class RalphClientRepository(AstronClientRepository, FSM):
         taskMgr.doMethodLater(10, self.connectFailed, 'HelloTimeout')
         base.acceptOnce('CLIENT_HELLO_RESP', lambda : self.request('Login'))
 
-    def connectFailed(self):
+    def connectFailed(self, task = None):
         self.request('Failed')
+        return Task.done
 
     def exitConnect(self):
         taskMgr.remove('HelloTimeout')
