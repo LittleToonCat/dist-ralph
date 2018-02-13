@@ -26,5 +26,5 @@ dclass World : DistributedObject {
 
 dclass Ralph : DistributedSmoothNode {
   setName(string name) required ram broadcast;
-  setChat(string chat) broadcast ownsend;
+  setChat(string chat) broadcast ram ownsend;
 };

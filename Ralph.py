@@ -9,8 +9,11 @@ class Ralph(DistributedSmoothNode):
         self.actor = None
         self.isMoving = False
         self.name = ''
+        self.chat = ''
         self.nameText = None
         self.nameTextNP = None
+        self.chatText = None
+        self.chatTextNP = None
 
     def announceGenerate(self):
         DistributedSmoothNode.announceGenerate(self)
@@ -53,9 +56,24 @@ class Ralph(DistributedSmoothNode):
         self.nameNP.setScale(.25)
         self.nameNP.setPos(0, 0, 1.2)
         self.nameNP.setBillboardPointEye()
+        self.chatText = TextNode('%d-chatText' % self.doId)
+        self.chatText.setText(self.chat)
+        self.chatText.setAlign(self.chatText.A_center)
+        self.chatText.setTextColor(0.5, 0.5, 1, 1)
+        self.chatNP = self.attachNewNode(self.chatText)
+        self.chatNP.setScale(.35)
+        self.chatNP.setPos(0, 0, 1.6)
+        self.chatNP.setBillboardPointEye()
 
     def setName(self, name):
         self.name = name
+
+    def setChat(self, chat):
+        self.chat = chat
+        self.chatText.setText(self.chat)
+
+    def getChat(self):
+        return self.chat
 
     def isLocal(self):
         return False

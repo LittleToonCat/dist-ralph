@@ -1,6 +1,7 @@
 import __builtin__
 import sys
 from panda3d.core import *
+from direct.gui import *
 from Ralph import Ralph
 from direct.distributed.DistributedSmoothNode import DistributedSmoothNode
 
@@ -22,7 +23,7 @@ class RalphOV(Ralph):
     """
     def __init__(self, cr):
         Ralph.__init__(self, cr)
-
+        self.chatEntry = None
         # This is used to store which keys are currently pressed.
         self.keyMap = {
             "left": 0, "right": 0, "forward": 0, "cam-left": 0, "cam-right": 0}
@@ -31,9 +32,17 @@ class RalphOV(Ralph):
         Ralph.announceGenerate(self)
         __builtin__.localAvatar = self
         messenger.send('localAvatarGenerated')
+        self.chatEntry = DirectEntry.DirectEntry(text = "" ,scale=.07, pos=(-0.4, 0, -0.85), relief = DirectGuiGlobals.RIDGE, command = self.b_setChat)
 
     def isLocal(self):
         return True
+
+    def b_setChat(self, chat):
+        self.d_setChat(chat)
+        self.setChat(chat)
+
+    def d_setChat(self, chat):
+        self.sendUpdate('setChat', [chat])
 
     def setCollisions(self):
         self.cTrav = CollisionTraverser()
