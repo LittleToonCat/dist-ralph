@@ -1,10 +1,10 @@
-from direct.distributed.DistributedObjectUD import DistributedObjectUD
+from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 
-class LoginManagerUD(DistributedObjectUD):
+class LoginManagerUD(DistributedObjectGlobalUD):
     """ A simple UberDOG object to verify 
     all new client connections """
     def __init__(self, air):
-        DistributedObjectUD.__init__(self, air)
+        DistributedObjectGlobalUD.__init__(self, air)
 
     def login(self):
         """ This function gets called whenever the client

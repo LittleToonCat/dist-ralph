@@ -60,9 +60,8 @@ class RalphUDRepostiory(AstronInternalRepository):
         self.setAI(self.GameGlobalsId, self.baseChannel)
         
         # And then generate the LoginManager itself. 
-        # (It's ownership is defined automaticly internally)
         loginManager = LoginManagerUD(self)
-        loginManager.generateWithRequiredAndId(LOGIN_MANAGER_DO_ID, self.GameGlobalsId, 0)
+        loginManager = self.generateGlobalObject(LOGIN_MANAGER_DO_ID, 'LoginManager')
 
 base = ShowBase()
 base.air = RalphUDRepostiory(args)

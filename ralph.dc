@@ -11,7 +11,7 @@ dclass RootObject : DistributedObject {
 };
 
 dclass LoginManager : DistributedObject {
-  login() clsend airecv;
+  login() clsend;
   loginResp(uint8 success);
 };
 
