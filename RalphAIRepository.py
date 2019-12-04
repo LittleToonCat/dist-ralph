@@ -57,7 +57,7 @@ class RalphAIRepository(AstronInternalRepository):
     def connectSuccess(self):
         """ Successfully connected to the Message Director.
             Now to generate our World! """
-        print 'Connected Successfully!'
+        print('Connected Successfully!')
 
         self.world = WorldAI(self)
         self.world.setName(self.worldName)
@@ -68,7 +68,7 @@ class RalphAIRepository(AstronInternalRepository):
         self.timeManager.generateWithRequired(ZONE_ID_MANAGERS)
 
     def getAvatarIdFromSender(self):
-        return self.getMsgSender() & 0xFFFFFFFFL
+        return self.getMsgSender() & 0xFFFFFFFF
 
 base = ShowBase()
 base.air = RalphAIRepository(args)

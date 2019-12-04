@@ -1,4 +1,4 @@
-import __builtin__
+import builtins
 import sys
 from panda3d.core import *
 from direct.gui import *
@@ -30,7 +30,7 @@ class RalphOV(Ralph):
 
     def announceGenerate(self):
         Ralph.announceGenerate(self)
-        __builtin__.localAvatar = self
+        builtins.localAvatar = self
         messenger.send('localAvatarGenerated')
         self.chatEntry = DirectEntry.DirectEntry(text = "" ,scale=.07, pos=(-0.4, 0, -0.85), relief = DirectGuiGlobals.RIDGE, command = self.b_setChat)
 

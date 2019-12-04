@@ -72,7 +72,7 @@ class RalphClientRepository(AstronClientRepository, FSM):
         if success:
             self.request('Menu')
         else:
-            print 'Login failed!'
+            print('Login failed!')
 
     def exitLogin(self):
         self.text.destroy()

@@ -50,7 +50,7 @@ class RalphUDRepostiory(AstronInternalRepository):
     def connectSuccess(self):
         """ Successfully connected to the Message Director.
             Now to generate the LoginManager """
-        print 'Connected Successfully!'
+        print('Connected Successfully!')
 
         # Generate our 'dummy' object...
         rootObj = RootObjectUD(self)
